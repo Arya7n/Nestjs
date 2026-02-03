@@ -1,98 +1,338 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS CRUD System - Best Practices Implementation
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A production-ready CRUD API built with NestJS, MongoDB, and following all industry best practices.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+- ✅ **Complete CRUD Operations** (Create, Read, Update, Delete)
+- ✅ **MongoDB with Mongoose** for data persistence
+- ✅ **Input Validation** with class-validator
+- ✅ **Swagger/OpenAPI Documentation**
+- ✅ **Global Exception Handling**
+- ✅ **Response Transformation Interceptor**
+- ✅ **Pagination, Search & Filtering**
+- ✅ **Soft Delete** implementation
+- ✅ **Password Hashing** with bcrypt
+- ✅ **Unit & E2E Tests**
+- ✅ **Clean Architecture** with layered structure
+- ✅ **TypeScript** with strict typing
+- ✅ **CORS** enabled
+- ✅ **Environment Configuration**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📋 Prerequisites
 
-## Project setup
+- Node.js (v16 or higher)
+- MongoDB (local or cloud instance like MongoDB Atlas)
+- npm or yarn
 
+## 🛠️ Installation
+
+1. **Clone the repository** (if applicable)
+   ```bash
+   cd nestjs
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables**
+   
+   Update the `.env` file with your MongoDB connection string:
+   ```env
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/nestjs-crud
+   ```
+
+   For MongoDB Atlas (cloud):
+   ```env
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/nestjs-crud
+   ```
+
+## 🏃 Running the Application
+
+### Development Mode
 ```bash
-$ npm install
+npm run start:dev
 ```
 
-## Compile and run the project
+The application will be available at:
+- **API**: http://localhost:3000/api
+- **Swagger Docs**: http://localhost:3000/api/docs
 
+### Production Mode
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run build
+npm run start:prod
 ```
 
-## Run tests
+## 📚 API Endpoints
 
+All endpoints are prefixed with `/api`
+
+### Users
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/users` | Create a new user |
+| GET | `/api/users` | Get all users (paginated) |
+| GET | `/api/users/:id` | Get user by ID |
+| PATCH | `/api/users/:id` | Update user |
+| DELETE | `/api/users/:id` | Delete user (soft delete) |
+
+### Query Parameters for GET /api/users
+
+- `page` - Page number (default: 1)
+- `limit` - Items per page (default: 10, max: 100)
+- `search` - Search in firstName, lastName, email
+- `role` - Filter by role (admin, user, moderator)
+- `isActive` - Filter by active status (true/false)
+
+## 🔍 API Examples
+
+### Create User
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john@example.com",
+    "password": "SecurePass123",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "user"
+  }'
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### Get All Users (with pagination)
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+curl http://localhost:3000/api/users?page=1&limit=10&search=john
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Get User by ID
+```bash
+curl http://localhost:3000/api/users/507f1f77bcf86cd799439011
+```
 
-## Resources
+### Update User
+```bash
+curl -X PATCH http://localhost:3000/api/users/507f1f77bcf86cd799439011 \
+  -H "Content-Type: application/json" \
+  -d '{"firstName": "Jane"}'
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### Delete User
+```bash
+curl -X DELETE http://localhost:3000/api/users/507f1f77bcf86cd799439011
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 🧪 Testing
 
-## Support
+### Run Unit Tests
+```bash
+npm run test
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Run E2E Tests
+```bash
+npm run test:e2e
+```
 
-## Stay in touch
+### Test Coverage
+```bash
+npm run test:cov
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🏗️ Project Structure
 
-## License
+```
+src/
+├── common/
+│   ├── dto/
+│   │   └── pagination.dto.ts          # Reusable pagination DTO
+│   ├── filters/
+│   │   └── http-exception.filter.ts   # Global exception filter
+│   ├── interceptors/
+│   │   └── transform.interceptor.ts   # Response transformation
+│   ├── interfaces/
+│   │   └── pagination-result.interface.ts
+│   └── schemas/
+│       └── base.schema.ts             # Base schema with common fields
+├── users/
+│   ├── dto/
+│   │   ├── create-user.dto.ts         # Create user validation
+│   │   ├── update-user.dto.ts         # Update user validation
+│   │   ├── query-user.dto.ts          # Query filters
+│   │   └── user-response.dto.ts       # Response DTO (excludes password)
+│   ├── schemas/
+│   │   └── user.schema.ts             # Mongoose schema
+│   ├── users.controller.spec.ts       # Controller unit tests
+│   ├── users.controller.ts            # REST endpoints
+│   ├── users.module.ts                # Module configuration
+│   ├── users.service.spec.ts          # Service unit tests
+│   └── users.service.ts               # Business logic
+├── app.module.ts                      # Root module
+└── main.ts                            # Application entry point
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+test/
+└── users.e2e-spec.ts                  # E2E tests
+```
+
+## 🎯 Best Practices Implemented
+
+### 1. **Layered Architecture**
+- **Controller**: Handles HTTP requests/responses
+- **Service**: Contains business logic
+- **Schema**: Defines data structure and validation
+
+### 2. **Data Transfer Objects (DTOs)**
+- Input validation with class-validator
+- Separate DTOs for create, update, and query operations
+- Response DTOs to exclude sensitive data
+
+### 3. **Error Handling**
+- Global exception filter
+- Consistent error response format
+- Proper HTTP status codes
+
+### 4. **Security**
+- Password hashing with bcrypt
+- Input validation and sanitization
+- Password excluded from all responses
+
+### 5. **Database Best Practices**
+- Indexes for performance
+- Soft delete instead of hard delete
+- Proper query optimization
+
+### 6. **API Design**
+- RESTful endpoints
+- Pagination for list endpoints
+- Search and filtering capabilities
+- Proper HTTP methods and status codes
+
+### 7. **Documentation**
+- Swagger/OpenAPI integration
+- Detailed API documentation
+- Example requests and responses
+
+### 8. **Testing**
+- Unit tests for services and controllers
+- E2E tests for complete workflows
+- Mocked dependencies
+
+## 🔒 Security Considerations
+
+- Passwords are hashed using bcrypt (10 rounds)
+- Passwords never returned in API responses
+- Input validation on all endpoints
+- CORS enabled for cross-origin requests
+- Environment variables for sensitive data
+
+## 📝 Response Format
+
+### Success Response
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "507f1f77bcf86cd799439011",
+    "email": "john@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "user",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}
+```
+
+### Error Response
+```json
+{
+  "statusCode": 404,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "path": "/api/users/123",
+  "method": "GET",
+  "message": "User with ID 123 not found",
+  "error": "Not Found"
+}
+```
+
+### Paginated Response
+```json
+{
+  "success": true,
+  "data": {
+    "data": [...],
+    "meta": {
+      "currentPage": 1,
+      "itemsPerPage": 10,
+      "totalItems": 100,
+      "totalPages": 10,
+      "hasNextPage": true,
+      "hasPreviousPage": false
+    }
+  },
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}
+```
+
+## 🚀 Extending the System
+
+To add a new CRUD resource (e.g., Products):
+
+1. **Generate the module**:
+   ```bash
+   nest g module products
+   nest g controller products
+   nest g service products
+   ```
+
+2. **Create the schema** in `products/schemas/product.schema.ts`
+
+3. **Create DTOs** following the same pattern as Users
+
+4. **Implement service methods** similar to UsersService
+
+5. **Add controller endpoints** with Swagger documentation
+
+6. **Write tests**
+
+## 📦 Dependencies
+
+### Production
+- `@nestjs/common` - Core NestJS framework
+- `@nestjs/mongoose` - MongoDB integration
+- `mongoose` - MongoDB ODM
+- `@nestjs/config` - Configuration management
+- `@nestjs/swagger` - API documentation
+- `class-validator` - DTO validation
+- `class-transformer` - Object transformation
+- `bcrypt` - Password hashing
+
+### Development
+- `@nestjs/testing` - Testing utilities
+- `jest` - Testing framework
+- `supertest` - HTTP testing
+
+## 📄 License
+
+This project is UNLICENSED (private).
+
+## 🤝 Contributing
+
+Feel free to extend this CRUD system with additional features like:
+- JWT Authentication
+- Role-based Authorization
+- File Upload
+- Email Notifications
+- Caching with Redis
+- Rate Limiting
+- Logging with Winston
+
+---
+
+**Built with ❤️ using NestJS**
