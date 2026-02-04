@@ -13,7 +13,6 @@ import { UsersModule } from './users/users.module';
       envFilePath: '.env',
     }),
 
-    // MongoDB connection
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
