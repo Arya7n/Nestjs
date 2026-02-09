@@ -7,7 +7,6 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    // Global configuration
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -23,7 +22,6 @@ import { UsersModule } from './users/users.module';
       inject: [ConfigService],
     }),
 
-    // Feature modules
     UsersModule,
   ],
   controllers: [AppController],
