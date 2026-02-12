@@ -41,7 +41,7 @@ export class User {
     @Prop()
     updatedAt: Date;
 }
-
+  
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.index({ email: 1 });
