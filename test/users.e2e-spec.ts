@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
+import { getModelToken } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import request from 'supertest';
+import { User, UserDocument } from '../src/users/schemas/user.schema';
 import { AppModule } from '../src/app.module';
 import { HttpExceptionFilter } from '../src/common/filters/http-exception.filter';
 import { TransformInterceptor } from '../src/common/interceptors/transform.interceptor';
@@ -8,6 +11,7 @@ import { TransformInterceptor } from '../src/common/interceptors/transform.inter
 describe('UsersController (e2e)', () => {
     let app: INestApplication;
     let createdUserId: string;
+    let userModel: Model<UserDocument>;
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -15,6 +19,7 @@ describe('UsersController (e2e)', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        userModel = moduleFixture.get<Model<UserDocument>>(getModelToken(User.name));
 
         // Apply same configuration as main.ts
         app.setGlobalPrefix('api');
@@ -32,6 +37,7 @@ describe('UsersController (e2e)', () => {
         app.useGlobalInterceptors(new TransformInterceptor());
 
         await app.init();
+        await userModel.deleteMany({});
     });
 
     afterAll(async () => {
