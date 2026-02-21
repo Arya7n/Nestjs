@@ -21,7 +21,6 @@ describe('UsersController (e2e)', () => {
         app = moduleFixture.createNestApplication();
         userModel = moduleFixture.get<Model<UserDocument>>(getModelToken(User.name));
 
-        // Apply same configuration as main.ts
         app.setGlobalPrefix('api');
         app.useGlobalPipes(
             new ValidationPipe({
